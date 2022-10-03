@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <!-- Refer to https://docs.liquibase.com/change-types/community/create-table.html -->
+
+    <changeSet id="39726ba4-19c3-4282-8074-d67c5e656e53" author="diego.hidalgo" failOnError="true" >
+        <createTable tableName="cliente">
+            <column name="id_cliente" type="integer">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="nombre" type="varchar(255)" />
+            <column name="apellido" type="varchar(255)" />
+            <column name="direccion" type="varchar(255)" />
+            <column name="fecha_nacimiento" type="date" />
+            <column name="telefono" type="varchar(255)" />
+            <column name="email" type="varchar(255)" />
+            <column name="categoria" type="varchar(255)" />
+        </createTable>
+        <createTable tableName="producto">
+            <column name="id_producto" type="integer">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="nombre" type="varchar(255)" />
+            <column name="precio" type="number" />
+            <column name="stock" type="integer" />
+        </createTable>
+        <createTable tableName="factura">
+            <column name="num_factura" type="integer">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="id_cliente" type="integer">
+                <constraints foreignKeyName="factura_cliente_fk" referencedTableName="cliente" referencedColumnNames="id_cliente"/>
+            </column>
+            <column name="fecha" type="date" />
+        </createTable>
+        <createTable tableName="detalle">
+            <column name="num_detalle" type="integer">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="id_factura" type="integer">
+                <constraints nullable="false" primaryKey="true" foreignKeyName="detalle_factura_fk" referencedTableName="factura" referencedColumnNames="num_factura"/>
+            </column>
+            <column name="id_producto" type="integer">
+                <constraints foreignKeyName="factura_producto_fk" referencedTableName="producto" referencedColumnNames="id_producto"/>
+            </column>
+            <column name="cantidad" type="integer" />
+            <column name="precio" type="number" />
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
